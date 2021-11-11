@@ -1,6 +1,7 @@
 package com.linkuan.springbootjdbcstart.config;
 
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 /**
  * @author linkuan
@@ -22,9 +24,15 @@ import javax.sql.DataSource;
 @ConditionalOnProperty(name = "spring.datasource.type", havingValue = "com.alibaba.druid.pool.DruidDataSource", matchIfMissing = true)
 public class DruidDataSourceConfig {
 
-    @Bean
-    @ConfigurationProperties("spring.datasource.druid")
-    public DataSource dataSourceOne(){
+    @Bean(name = "dataSource")
+    public DataSource dataSource() {
+        DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
+        try {
+            dataSource.init();
+        }catch (SQLException e) {
+            // DruidDataSource在init的时候失败了，不再使用，需要close。
+            dataSource.close();
+        }
         return DruidDataSourceBuilder.create().build();
     }
 

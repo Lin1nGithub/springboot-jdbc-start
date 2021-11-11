@@ -54,13 +54,6 @@
             <version>1.2.76</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>${druid.version}</version>
-        </dependency>
-
         <!-- Use Tomcat instead -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
